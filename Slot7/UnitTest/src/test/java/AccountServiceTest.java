@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import thienln.example.AccountService;
@@ -19,5 +20,21 @@ public class AccountServiceTest {
     void testRegisterAccount(String username, String password, String email, boolean expected) {
         boolean actual = accountService.registerAccount(username, password, email);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void testPassword(){
+        assertEquals(true, accountService.isValidPassword("abcdef"));
+    }
+
+    @Test
+    void testDuplicateUsername() {
+        String username = "uniqueUser";
+        String validPassword = "password";
+        String validEmail = "email@gmail.com";
+
+        assertTrue(accountService.registerAccount(username, validPassword, validEmail));
+
+        assertFalse(accountService.registerAccount(username, validPassword, validEmail));
     }
 }
