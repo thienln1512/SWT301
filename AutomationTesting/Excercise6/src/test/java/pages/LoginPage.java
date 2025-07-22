@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 public class LoginPage {
     private WebDriver driver;
 
-    private By emailInput = By.id("email");
-    private By passwordInput = By.id("password");
-    private By loginButton = By.id("loginBtn");
+    private By emailInput = By.name("email"); // ✅ dùng name thay vì id
+    private By passwordInput = By.name("password");
+    private By loginButton = By.cssSelector("button[type='submit']"); // submit nút login
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -31,6 +31,12 @@ public class LoginPage {
     }
 
     public boolean isLoginSuccessful() {
-        return driver.getCurrentUrl().contains("/home");
+        return driver.getCurrentUrl().contains("/home") || driver.getCurrentUrl().contains("/admin");
     }
+
+    public boolean isLoginFailed() {
+        // Điều kiện này có thể thay đổi tùy theo giao diện trang
+        return driver.getPageSource().contains("Invalid") || driver.getCurrentUrl().contains("/login");
+    }
+
 }
